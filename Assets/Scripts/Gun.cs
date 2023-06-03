@@ -56,30 +56,16 @@ public class Gun : MonoBehaviour
         if(Input.GetMouseButton(1))
         {
             transform.position = zoomPos.position;
-            Scope.SetActive(true);
-            Sight.SetActive(false);
-            transform.GetChild(5).gameObject.SetActive(false);
-
-            /*
-            while(this.transform.localPosition != zoomPos.position)
-            {
-                this.transform.localPosition = Vector3.Lerp(transform.position, zoomPos.position, 0.2f);
-            }
-            */
+            //Scope.SetActive(true);
+            //Sight.SetActive(false);
+            //transform.GetChild(5).gameObject.SetActive(false);
         }
         else
         {
             transform.position = originalPos.position;
-            Scope.SetActive(false);
-            Sight.SetActive(true);
-            transform.GetChild(5).gameObject.SetActive(true);
-
-            /*
-            while (this.transform.localPosition != originalPos.position)
-            {
-                this.transform.localPosition = Vector3.Lerp(transform.position, originalPos.position, 0.2f);
-            }
-            */
+            //Scope.SetActive(false);
+            //Sight.SetActive(true);
+            //transform.GetChild(5).gameObject.SetActive(true);
         }
 
     }
@@ -101,14 +87,17 @@ public class Gun : MonoBehaviour
         audio.Play();
         beam.enabled = true;
         beam.SetPosition(0, muzzle.transform.position);
-        if(Physics.Raycast(muzzle.transform.position, muzzle.transform.forward, out hit, 100))
+
+        //정직하게 머즐에서 나가지 말고, 나가는거 자체는 카메라에서 해야 안이상함.
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 100))
+        //if(Physics.Raycast(muzzle.transform.position, muzzle.transform.forward, out hit, 100))
         {
-            //Debug.DrawRay(muzzle.transform.position, muzzle.transform.forward * hit.distance, Color.red);
             beam.SetPosition(1, hit.point);
-            if (hit.collider.tag == "Ground")
-                Instantiate(bulletHole, hit.point, Quaternion.Euler(90, 0, 0));
-            else
-                Instantiate(bulletHole, hit.point, hit.transform.rotation);
+            //if (hit.collider.tag == "Ground")
+                //Instantiate(bulletHole, hit.point, Quaternion.Euler(90, 0, 0));
+            //else
+            GameObject temp = Instantiate(bulletHole, hit.point, hit.transform.rotation);
+            Destroy(temp, 3f);
 
         }
         else
