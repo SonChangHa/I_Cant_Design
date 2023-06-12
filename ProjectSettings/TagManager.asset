@@ -8,6 +8,7 @@ TagManager:
   - BulletSpawn
   - Weapon
   - Ground
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -21,9 +22,9 @@ TagManager:
   - 
   - FirstPersonWeapon
   - PhysicalAmmo
-  - 
-  - 
-  - 
+  - Player
+  - Wall
+  - WayOut
   - 
   - 
   - 

@@ -30,6 +30,8 @@ public class Gun : MonoBehaviour
     public GameObject Sight;
     public GameObject Scope;
 
+    public GameObject door;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,10 +95,15 @@ public class Gun : MonoBehaviour
         //if(Physics.Raycast(muzzle.transform.position, muzzle.transform.forward, out hit, 100))
         {
             beam.SetPosition(1, hit.point);
-            //if (hit.collider.tag == "Ground")
-                //Instantiate(bulletHole, hit.point, Quaternion.Euler(90, 0, 0));
-            //else
-            GameObject temp = Instantiate(bulletHole, hit.point, hit.transform.rotation);
+            if (hit.collider.tag == "Enemy")
+            {
+                Destroy(hit.collider.gameObject);
+                door.GetComponent<MeshRenderer>().enabled = false;
+                door.GetComponent<BoxCollider>().isTrigger = true;
+            }
+                
+
+            GameObject temp = Instantiate(bulletHole, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
             Destroy(temp, 3f);
 
         }
@@ -107,6 +114,8 @@ public class Gun : MonoBehaviour
         isFireReady = false;
         StartCoroutine("FireDelayOn");
     }
+
+
 
     IEnumerator FireDelayOn()
     {
