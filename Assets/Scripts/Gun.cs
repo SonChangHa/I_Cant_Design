@@ -32,13 +32,20 @@ public class Gun : MonoBehaviour
 
     public GameObject door;
 
+    public GameObject bulletCase;
+
+    Queue<GameObject> poolQueue = new Queue<GameObject>();
+
+    Transform bulletCaseHolder;
+
     // Start is called before the first frame update
     void Start()
     {
         beam = muzzle.GetComponentInChildren<LineRenderer>();
         isFireReady = true;
         audio = muzzle.GetComponent<AudioSource>();
-
+        bulletCaseHolder = new GameObject().GetComponent<Transform>();
+        Init(10);
     }
 
     // Update is called once per frame
@@ -106,6 +113,10 @@ public class Gun : MonoBehaviour
             GameObject temp = Instantiate(bulletHole, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
             Destroy(temp, 3f);
 
+            GameObject bulletCaseTemp = GetObject();
+            bulletCaseTemp.transform.position = transform.position;
+            StartCoroutine(ReturnObject(bulletCaseTemp));
+            
         }
         else
         {
@@ -115,7 +126,44 @@ public class Gun : MonoBehaviour
         StartCoroutine("FireDelayOn");
     }
 
+    void Init(int num)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            poolQueue.Enqueue(CreateBulletCase());
+        }
+    }
 
+    GameObject CreateBulletCase()
+    {
+        var obj = Instantiate(bulletCase);
+        obj.gameObject.SetActive(false);
+        obj.transform.SetParent(bulletCaseHolder);
+        return obj;
+    }
+
+    public GameObject GetObject()
+    {
+        if (poolQueue.Count > 0)
+        {
+            var obj = poolQueue.Dequeue();
+            obj.gameObject.SetActive(true);
+            return obj;
+        }
+        else
+        {
+            var obj = CreateBulletCase();
+            obj.gameObject.SetActive(true);
+            return obj;
+        }
+    }
+
+    IEnumerator ReturnObject(GameObject obj)
+    {
+        yield return new WaitForSeconds(3f);
+        obj.gameObject.SetActive(false);
+        poolQueue.Enqueue(obj);
+    }
 
     IEnumerator FireDelayOn()
     {

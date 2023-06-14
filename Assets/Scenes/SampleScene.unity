@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1437,7 +1437,7 @@ GameObject:
   - component: {fileID: 2080247597}
   - component: {fileID: 2080247596}
   - component: {fileID: 2080247595}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Plane
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1854,6 +1854,12 @@ PrefabInstance:
       propertyPath: zoomPos
       value: 
       objectReference: {fileID: 807642924}
+    - target: {fileID: 8893402938970473467, guid: 5ce2c89abdba39445928a57efbebe0b6,
+        type: 3}
+      propertyPath: bulletCase
+      value: 
+      objectReference: {fileID: 4153673265531936272, guid: a294f3519c9e9d042a32ca1b3a5ee664,
+        type: 3}
     - target: {fileID: 8893402938970473467, guid: 5ce2c89abdba39445928a57efbebe0b6,
         type: 3}
       propertyPath: bulletHole
